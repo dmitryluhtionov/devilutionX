@@ -1,5 +1,7 @@
 #include "platform/switch/docking.h"
 
+#include <cstdint>
+
 #include <SDL.h>
 #include <switch.h>
 
@@ -7,7 +9,7 @@
 
 namespace devilution {
 namespace {
-enum class OperationMode {
+enum class OperationMode : int8_t {
 	Handheld,
 	Docked,
 	Uninitialized = -1

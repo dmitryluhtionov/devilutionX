@@ -377,7 +377,8 @@ msgid "Client-Server (TCP)"
 msgstr "Клиент-сервер (TCP)"
 
 #: Source/DiabloUI/selconn.cpp:15
-msgid "Loopback"
+#, fuzzy
+msgid "Offline" 
 msgstr "Петля"
 
 #: Source/DiabloUI/selconn.cpp:54 Source/DiabloUI/selgame.cpp:604
@@ -848,11 +849,11 @@ msgstr "Предыдущее меню"
 
 #: Source/DiabloUI/support_lines.cpp:8
 msgid ""
-"We maintain a chat server at Discord.gg/YQKCAYQ Follow the links to join our "
+"We maintain a chat server at Discord.gg/devilutionx Follow the links to join our "
 "community where we talk about things related to Diablo, and the Hellfire "
 "expansion."
 msgstr ""
-"Мы поддерживаем чат-сервер на Discord.gg/YQKCAYQ Перейдите по ссылкам, чтобы "
+"Мы поддерживаем чат-сервер на Discord.gg/devilutionx Перейдите по ссылкам, чтобы "
 "присоединиться к нашему сообществу, где мы говорим о вещах, связанных с "
 "Diablo и расширением Hellfire."
 
@@ -1069,11 +1070,11 @@ msgstr[1] "{:d} заряда"
 msgstr[2] "{:d} зарядов"
 
 #: Source/control.cpp:860 Source/inv.cpp:1998 Source/items.cpp:3480
-msgid "{:d} gold piece"
-msgid_plural "{:d} gold pieces"
-msgstr[0] "{:d} золотой"
-msgstr[1] "{:d} золотых"
-msgstr[2] "{:d} золотых"
+msgid "{:s} gold piece"
+msgid_plural "{:s} gold pieces"
+msgstr[0] "{:s} золотой"
+msgstr[1] "{:s} золотых"
+msgstr[2] "{:s} золотых"
 
 #: Source/control.cpp:863
 msgid "Requirements not met"
@@ -1093,11 +1094,11 @@ msgstr "Новый уровень"
 
 #. TRANSLATORS: {:d} is a number. Dialog is shown when splitting a stash of Gold.
 #: Source/control.cpp:1040
-msgid "You have {:d} gold piece. How many do you want to remove?"
-msgid_plural "You have {:d} gold pieces. How many do you want to remove?"
-msgstr[0] "У вас {:d} золотой. Сколько вы хотите забрать?"
-msgstr[1] "У вас {:d} золотых. Сколько вы хотите забрать?"
-msgstr[2] "У вас {:d} золотых. Сколько вы хотите забрать?"
+msgid "You have {:s} gold piece. How many do you want to remove?"
+msgid_plural "You have {:s} gold pieces. How many do you want to remove?"
+msgstr[0] "У вас {:s} золотой. Сколько вы хотите забрать?"
+msgstr[1] "У вас {:s} золотых. Сколько вы хотите забрать?"
+msgstr[2] "У вас {:s} золотых. Сколько вы хотите забрать?"
 
 #: Source/controls/modifier_hints.cpp:176 Source/qol/monhealthbar.cpp:36
 #: Source/qol/xpbar.cpp:76
@@ -1498,7 +1499,7 @@ msgstr "{} сложность"
 msgid "In Menu"
 msgstr "В меню"
 
-#: Source/dvlnet/loopback.cpp:113
+#: Source/dvlnet/loopback.cpp:118
 msgid "loopback"
 msgstr "петля"
 
@@ -4054,12 +4055,8 @@ msgstr "Правый клик для чтения"
 
 # Оставил именно этот вариант, так как полностью корректный перевод в игре выглядит глупо.
 #: Source/items.cpp:1814 Source/items.cpp:1835
-msgid "Select from spell book, then"
-msgstr "Выберите в книге заклинаний, затем"
-
-#: Source/items.cpp:1815 Source/items.cpp:1836
-msgid "cast spell to read"
-msgstr "произнесите заклинание для чтения"
+msgid "Select from spell book, then\ncast spell to read"
+msgstr "Выберите в книге заклинаний, затем\nпроизнесите заклинание для чтения"
 
 #: Source/items.cpp:1817 Source/items.cpp:1838 Source/items.cpp:1852
 msgid "Open inventory to use"
@@ -4070,12 +4067,8 @@ msgid "Activate to read"
 msgstr "Активируйте для чтения"
 
 #: Source/items.cpp:1825
-msgid "Right-click to read, then"
-msgstr "Правый клик для чтения, затем"
-
-#: Source/items.cpp:1826
-msgid "left-click to target"
-msgstr "левый клик по цели"
+msgid "Right-click to read, then\nleft-click to target"
+msgstr "Правый клик для чтения, затем\nлевый клик по цели"
 
 #: Source/items.cpp:1849
 msgid "Right-click to use"
@@ -4470,8 +4463,8 @@ msgstr "2x урона монстрам, 1x вам"
 
 #: Source/items.cpp:3746
 #, no-c-format
-msgid "Random 0 - 500% damage"
-msgstr "Случайные 0 - 500% урона"
+msgid "Random 0 - 600% damage"
+msgstr "Случайные 0 - 600% урона"
 
 #: Source/items.cpp:3748
 #, no-c-format
@@ -6945,7 +6938,7 @@ msgstr[0] "Посох ({:d} заряд)"
 msgstr[1] "Посох ({:d} заряда)"
 msgstr[2] "Посох ({:d} зарядов)"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:164
 msgctxt "spellbook"
 msgid "Level {:d}"
@@ -6955,22 +6948,22 @@ msgstr "Уровень {:d}"
 msgid "Unusable"
 msgstr "Неиспользовано"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:174
 msgid "Heals: {:d} - {:d}"
 msgstr "Лечение: {:d} - {:d}"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:176
 msgid "Damage: {:d} - {:d}"
 msgstr "Урон: {:d} - {:d}"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:180
 msgid "Dmg: 1/3 target hp"
 msgstr "Урн: 1/3 здр цели"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:182
 msgctxt "spellbook"
 msgid "Mana: {:d}"
@@ -7026,8 +7019,8 @@ msgid "Chat History (Messages: {:d})"
 msgstr "История чата (Сообщения: {:d})"
 
 #: Source/qol/itemlabels.cpp:72
-msgid "{:d} gold"
-msgstr "{:d} золота"
+msgid "{:s} gold"
+msgstr "{:s} золота"
 
 #: Source/qol/stash.cpp:586
 msgid "How many gold pieces do you want to withdraw?"
@@ -7541,8 +7534,8 @@ msgstr "Покинуть магазин"
 msgid "I have these items for sale:"
 msgstr "У меня есть на продажу:"
 
-msgid "Your gold: {:d}"
-msgstr "Ваше золото: {:d}"
+msgid "Your gold: {:s}"
+msgstr "Ваше золото: {:s}"
 
 # “премиальные прдеметы” не влезают в длину строки
 #. TRANSLATORS: This text is white space sensitive. Check for correct alignment!
@@ -7696,16 +7689,13 @@ msgstr "Поговорить с Каином"
 msgid "Identify an item"
 msgstr "Идентифицировать предмет"
 
-#. TRANSLATORS: This text is white space sensitive. Check for correct alignment!
 #: Source/stores.cpp:1214
 msgid "You have nothing to identify."
 msgstr "У вас нечего идентифицировать."
 
-# Нужно выровнять с остальными строками
-#. TRANSLATORS: This text is white space sensitive. Check for correct alignment!
 #: Source/stores.cpp:1225
-msgid "Identify which item?             Your gold: {:d}"
-msgstr "Какой предмет идентифицировать? Ваше золото: {:d}"
+msgid "Identify which item?"
+msgstr "Какой предмет идентифицировать?"
 
 #: Source/stores.cpp:1242
 msgid "This item is:"

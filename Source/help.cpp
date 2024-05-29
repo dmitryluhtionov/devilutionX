@@ -4,16 +4,17 @@
  * Implementation of the in-game help text.
  */
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "DiabloUI/ui_flags.hpp"
+#include "engine/render/clx_render.hpp"
 #include "engine/render/text_render.hpp"
 #include "init.h"
 #include "minitext.h"
 #include "qol/chatlog.h"
 #include "stores.h"
 #include "utils/language.h"
-#include "utils/stdcompat/string_view.hpp"
 
 namespace devilution {
 
@@ -101,7 +102,7 @@ constexpr int PaddingTop = 32;
 constexpr int PaddingLeft = 32;
 
 constexpr int PanelHeight = 297;
-constexpr int ContentTextWidth = 577;
+constexpr int ContentTextWidth = 565;
 
 int LineHeight()
 {
@@ -138,6 +139,28 @@ int NumVisibleLines()
 	return (ContentsTextHeight() - 1) / LineHeight() + 1; // Ceil
 }
 
+void DrawHelpSlider(const Surface &out)
+{
+	const Point uiPosition = GetUIRectangle().position;
+	const int sliderXPos = ContentTextWidth + uiPosition.x + 36;
+	int sliderStart = uiPosition.y + HeaderHeight() + LineHeight() + 3;
+	int sliderEnd = uiPosition.y + PaddingTop + PanelHeight - 12;
+	ClxDraw(out, { sliderXPos, sliderStart }, (*pSTextSlidCels)[11]);
+	sliderStart += 12;
+	int sliderCurrent = sliderStart;
+	for (; sliderCurrent < sliderEnd; sliderCurrent += 12) {
+		ClxDraw(out, { sliderXPos, sliderCurrent }, (*pSTextSlidCels)[13]);
+	}
+	ClxDraw(out, { sliderXPos, sliderCurrent }, (*pSTextSlidCels)[10]);
+	// Subtract visible lines from the total number of lines to get the actual
+	// scroll range
+	const int scrollRange = static_cast<int>(HelpTextLines.size()) - NumVisibleLines();
+	// Subtract the size of the arrow buttons to get the length of the interior
+	// part of the slider
+	const int sliderLength = sliderCurrent - 12 - sliderStart;
+	ClxDraw(out, { sliderXPos, sliderStart + ((static_cast<int>(SkipLines) * sliderLength) / scrollRange) }, (*pSTextSlidCels)[12]);
+}
+
 } // namespace
 
 void InitHelp()
@@ -149,7 +172,7 @@ void InitHelp()
 	HelpFlag = false;
 
 	for (const auto *text : HelpText) {
-		const std::string paragraph = WordWrapString(_(text), 577);
+		const std::string paragraph = WordWrapString(_(text), ContentTextWidth);
 
 		size_t previous = 0;
 		while (true) {
@@ -172,18 +195,19 @@ void DrawHelp(const Surface &out)
 	const int lineHeight = LineHeight();
 	const int blankLineHeight = BlankLineHeight();
 
-	string_view title;
+	std::string_view title;
 	if (gbIsHellfire)
 		title = gbIsSpawn ? _("Shareware Hellfire Help") : _("Hellfire Help");
 	else
 		title = gbIsSpawn ? _("Shareware Diablo Help") : _("Diablo Help");
 
-	const int sx = PANEL_X + PaddingLeft;
-	const int sy = UI_OFFSET_Y;
+	const Point uiPosition = GetUIRectangle().position;
+	const int sx = uiPosition.x + PaddingLeft;
+	const int sy = uiPosition.y;
 
 	DrawString(out, title,
 	    { { sx, sy + PaddingTop + blankLineHeight }, { ContentTextWidth, lineHeight } },
-	    UiFlags::ColorWhitegold | UiFlags::AlignCenter);
+	    { .flags = UiFlags::ColorWhitegold | UiFlags::AlignCenter });
 
 	const int titleBottom = sy + HeaderHeight();
 	DrawSLine(out, titleBottom);
@@ -191,7 +215,7 @@ void DrawHelp(const Surface &out)
 	const int numLines = NumVisibleLines();
 	const int contentY = titleBottom + DividerLineMarginY() + ContentPaddingY();
 	for (int i = 0; i < numLines; i++) {
-		const string_view line = HelpTextLines[i + SkipLines];
+		const std::string_view line = HelpTextLines[i + SkipLines];
 		if (line.empty()) {
 			continue;
 		}
@@ -203,12 +227,15 @@ void DrawHelp(const Surface &out)
 			style = UiFlags::ColorBlue;
 		}
 
-		DrawString(out, line.substr(offset), { { sx, contentY + i * lineHeight }, { ContentTextWidth, lineHeight } }, style, /*spacing=*/1, lineHeight);
+		DrawString(out, line.substr(offset), { { sx, contentY + i * lineHeight }, { ContentTextWidth, lineHeight } },
+		    { .flags = style, .lineHeight = lineHeight });
 	}
 
 	DrawString(out, _("Press ESC to end or the arrow keys to scroll."),
 	    { { sx, contentY + ContentsTextHeight() + ContentPaddingY() + blankLineHeight }, { ContentTextWidth, lineHeight } },
-	    UiFlags::ColorWhitegold | UiFlags::AlignCenter);
+	    { .flags = UiFlags::ColorWhitegold | UiFlags::AlignCenter });
+
+	DrawHelpSlider(out);
 }
 
 void DisplayHelp()

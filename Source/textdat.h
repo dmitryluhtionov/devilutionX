@@ -5,6 +5,8 @@
  */
 #pragma once
 
+#include <cstdint>
+
 #include "effects.h"
 
 namespace devilution {
@@ -425,7 +427,7 @@ enum _speech_id : int16_t {
 struct Speech {
 	const char *txtstr;
 	bool scrlltxt;
-	_sfx_id sfxnr;
+	SfxID sfxnr;
 };
 
 extern const Speech Speeches[];

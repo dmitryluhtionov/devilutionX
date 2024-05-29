@@ -11,16 +11,21 @@ namespace devilution {
 
 struct SpellListItem {
 	Point location;
-	spell_type type;
-	spell_id id;
+	SpellType type;
+	SpellID id;
 	bool isSelected;
 };
 
+/**
+ * @brief draws the current right mouse button spell.
+ * @param out screen buffer representing the main UI panel
+ */
 void DrawSpell(const Surface &out);
 void DrawSpellList(const Surface &out);
 std::vector<SpellListItem> GetSpellListItems();
 void SetSpell();
 void SetSpeedSpell(size_t slot);
+bool IsValidSpeedSpell(size_t slot);
 void ToggleSpell(size_t slot);
 
 /**

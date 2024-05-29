@@ -3,17 +3,21 @@
  *
  * Implementation of the in-game chat log.
  */
-#include <fmt/format.h>
+#include <ctime>
+#include <sstream>
 #include <string>
+#include <string_view>
 #include <vector>
+
+#include <fmt/format.h>
 
 #include "DiabloUI/ui_flags.hpp"
 #include "automap.h"
 #include "chatlog.h"
 #include "control.h"
+#include "diablo_msg.hpp"
 #include "doom.h"
 #include "engine/render/text_render.hpp"
-#include "error.h"
 #include "gamemenu.h"
 #include "help.h"
 #include "init.h"
@@ -21,7 +25,6 @@
 #include "minitext.h"
 #include "stores.h"
 #include "utils/language.h"
-#include "utils/stdcompat/string_view.hpp"
 
 namespace devilution {
 
@@ -35,11 +38,10 @@ struct ColoredText {
 struct MultiColoredText {
 	std::string text;
 	std::vector<ColoredText> colors;
-	int offset = 0;
 };
 
 bool UnreadFlag = false;
-unsigned int SkipLines;
+size_t SkipLines;
 unsigned int MessageCounter = 0;
 
 std::vector<MultiColoredText> ChatLogLines;
@@ -94,9 +96,9 @@ void ToggleChatLog()
 	if (ChatLogFlag) {
 		ChatLogFlag = false;
 	} else {
-		stextflag = STORE_NONE;
+		stextflag = TalkID::None;
 		CloseInventory();
-		chrflag = false;
+		CloseCharPanel();
 		sbookflag = false;
 		spselflag = false;
 		if (qtextflag && leveltype == DTYPE_TOWN) {
@@ -113,23 +115,35 @@ void ToggleChatLog()
 	}
 }
 
-void AddMessageToChatLog(const std::string &message, Player *player, UiFlags flags)
+void AddMessageToChatLog(std::string_view message, Player *player, UiFlags flags)
 {
 	MessageCounter++;
-	time_t tm = time(nullptr);
-	std::string timestamp = fmt::format("[#{:d}] {:02}:{:02}:{:02}", MessageCounter, localtime(&tm)->tm_hour, localtime(&tm)->tm_min, localtime(&tm)->tm_sec);
-	int oldSize = ChatLogLines.size();
-	ChatLogLines.emplace_back(MultiColoredText { "", { {} } });
+	time_t timeResult = time(nullptr);
+	const std::tm *localtimeResult = localtime(&timeResult);
+	std::string timestamp = localtimeResult != nullptr ? fmt::format("[#{:d}] {:02}:{:02}:{:02}", MessageCounter, localtimeResult->tm_hour, localtimeResult->tm_min, localtimeResult->tm_sec)
+	                                                   : fmt::format("[#{:d}] ", MessageCounter);
+	size_t oldSize = ChatLogLines.size();
 	if (player == nullptr) {
-		ChatLogLines.emplace_back(MultiColoredText { "{0} {1}", { { timestamp, UiFlags::ColorRed }, { message, flags } } });
+		ChatLogLines.emplace_back(MultiColoredText { "{0} {1}", { { timestamp, UiFlags::ColorRed }, { std::string(message), flags } } });
 	} else {
-		std::string playerInfo = fmt::format(_("{:s} (lvl {:d}): "), player->_pName, player->_pLevel);
-		ChatLogLines.emplace_back(MultiColoredText { message, { {} }, 20 });
-		UiFlags nameColor = player == &Players[MyPlayerId] ? UiFlags::ColorWhitegold : UiFlags::ColorBlue;
-		ChatLogLines.emplace_back(MultiColoredText { "{0} - {1}", { { timestamp, UiFlags::ColorRed }, { playerInfo, nameColor } } });
+		std::string playerInfo = fmt::format(fmt::runtime(_("{:s} (lvl {:d}): ")), player->_pName, player->getCharacterLevel());
+		UiFlags nameColor = player == MyPlayer ? UiFlags::ColorWhitegold : UiFlags::ColorBlue;
+		std::string prefix = timestamp + " - " + playerInfo;
+		std::string text = WordWrapString(prefix + std::string(message), ContentTextWidth);
+		std::vector<std::string> lines;
+		std::stringstream ss(text);
+
+		for (std::string s; getline(ss, s, '\n');) {
+			lines.push_back(s);
+		}
+		for (int i = static_cast<int>(lines.size()) - 1; i >= 1; i--) {
+			ChatLogLines.emplace_back(MultiColoredText { lines[i], {} });
+		}
+		lines[0].erase(0, prefix.length());
+		ChatLogLines.emplace_back(MultiColoredText { "{0} - {1}{2}", { { timestamp, UiFlags::ColorRed }, { playerInfo, nameColor }, { lines[0], UiFlags::ColorWhite } } });
 	}
 
-	unsigned int diff = ChatLogLines.size() - oldSize;
+	size_t diff = ChatLogLines.size() - oldSize;
 	// only autoscroll when on top of the log
 	if (SkipLines != 0) {
 		SkipLines += diff;
@@ -146,18 +160,23 @@ void DrawChatLog(const Surface &out)
 		UnreadFlag = false;
 	}
 
+	const Point uiPosition = GetUIRectangle().position;
 	const int lineHeight = LineHeight();
 	const int blankLineHeight = BlankLineHeight();
-	const int sx = PANEL_X + PaddingLeft;
-	const int sy = UI_OFFSET_Y;
+	const int sx = uiPosition.x + PaddingLeft;
+	const int sy = uiPosition.y;
 
-	DrawString(out, fmt::format(_("Chat History (Messages: {:d})"), MessageCounter),
+	DrawString(out, fmt::format(fmt::runtime(_("Chat History (Messages: {:d})")), MessageCounter),
 	    { { sx, sy + PaddingTop + blankLineHeight }, { ContentTextWidth, lineHeight } },
-	    (UnreadFlag ? UiFlags::ColorRed : UiFlags::ColorWhitegold) | UiFlags::AlignCenter);
+	    { .flags = (UnreadFlag ? UiFlags::ColorRed : UiFlags::ColorWhitegold) | UiFlags::AlignCenter });
 
-	time_t tm = time(nullptr);
-	std::string timestamp = fmt::format("{:02}:{:02}:{:02}", localtime(&tm)->tm_hour, localtime(&tm)->tm_min, localtime(&tm)->tm_sec);
-	DrawString(out, timestamp, { { sx, sy + PaddingTop + blankLineHeight }, { ContentTextWidth, lineHeight } }, UiFlags::ColorWhitegold);
+	time_t timeResult = time(nullptr);
+	const std::tm *localtimeResult = localtime(&timeResult);
+	if (localtimeResult != nullptr) {
+		std::string timestamp = fmt::format("{:02}:{:02}:{:02}", localtimeResult->tm_hour, localtimeResult->tm_min, localtimeResult->tm_sec);
+		DrawString(out, timestamp, { { sx, sy + PaddingTop + blankLineHeight }, { ContentTextWidth, lineHeight } },
+		    { .flags = UiFlags::ColorWhitegold });
+	}
 
 	const int titleBottom = sy + HeaderHeight();
 	DrawSLine(out, titleBottom);
@@ -168,18 +187,19 @@ void DrawChatLog(const Surface &out)
 		if (i + SkipLines >= ChatLogLines.size())
 			break;
 		MultiColoredText &text = ChatLogLines[ChatLogLines.size() - (i + SkipLines + 1)];
-		const string_view line = text.text;
+		const std::string_view line = text.text;
 
 		std::vector<DrawStringFormatArg> args;
 		for (auto &x : text.colors) {
 			args.emplace_back(DrawStringFormatArg { x.text, x.color });
 		}
-		DrawStringWithColors(out, line, args, { { (sx + text.offset), contentY + i * lineHeight }, { ContentTextWidth - text.offset * 2, lineHeight } }, UiFlags::ColorWhite, /*spacing=*/1, lineHeight);
+		DrawStringWithColors(out, line, args, { { sx, contentY + i * lineHeight }, { ContentTextWidth, lineHeight } },
+		    { .flags = UiFlags::ColorWhite, .lineHeight = lineHeight });
 	}
 
 	DrawString(out, _("Press ESC to end or the arrow keys to scroll."),
 	    { { sx, contentY + ContentsTextHeight() + ContentPaddingY() + blankLineHeight }, { ContentTextWidth, lineHeight } },
-	    UiFlags::ColorWhitegold | UiFlags::AlignCenter);
+	    { .flags = UiFlags::ColorWhitegold | UiFlags::AlignCenter });
 }
 
 void ChatLogScrollUp()

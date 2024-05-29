@@ -14,6 +14,9 @@
 
 namespace devilution {
 
+// Defined in player.h, forward declared here to allow for functions which operate in the context of a player.
+struct Player;
+
 // must be unsigned to generate unsigned comparisons with pnum
 #define MAX_PLRS 4
 
@@ -31,6 +34,7 @@ struct GameData {
 	uint8_t bTheoQuest;
 	uint8_t bCowQuest;
 	uint8_t bFriendlyFire;
+	uint8_t fullQuests;
 };
 
 /* @brief Contains info of running public game (for game list browsing) */
@@ -41,24 +45,25 @@ struct GameInfo {
 };
 
 extern bool gbSomebodyWonGameKludge;
-extern char szPlayerDescript[128];
 extern uint16_t sgwPackPlrOffsetTbl[MAX_PLRS];
-extern BYTE gbActivePlayers;
+extern uint8_t gbActivePlayers;
 extern bool gbGameDestroyed;
-extern GameData sgGameInitInfo;
+extern DVL_API_FOR_TEST GameData sgGameInitInfo;
 extern bool gbSelectProvider;
 extern DVL_API_FOR_TEST bool gbIsMultiplayer;
-extern char szPlayerName[128];
+extern std::string GameName;
+extern std::string GamePassword;
 extern bool PublicGame;
-extern BYTE gbDeltaSender;
+extern uint8_t gbDeltaSender;
 extern uint32_t player_state[MAX_PLRS];
+extern bool IsLoopback;
 
 void InitGameInfo();
-void NetSendLoPri(int playerId, const byte *data, size_t size);
-void NetSendHiPri(int playerId, const byte *data, size_t size);
-void multi_send_msg_packet(uint32_t pmask, const byte *data, size_t size);
+void NetSendLoPri(uint8_t playerId, const std::byte *data, size_t size);
+void NetSendHiPri(uint8_t playerId, const std::byte *data, size_t size);
+void multi_send_msg_packet(uint32_t pmask, const std::byte *data, size_t size);
 void multi_msg_countdown();
-void multi_player_left(int pnum, int reason);
+void multi_player_left(uint8_t pnum, int reason);
 void multi_net_ping();
 
 /**
@@ -66,9 +71,9 @@ void multi_net_ping();
  */
 bool multi_handle_delta();
 void multi_process_network_packets();
-void multi_send_zero_packet(int pnum, _cmd_id bCmd, const byte *data, size_t size);
+void multi_send_zero_packet(uint8_t pnum, _cmd_id bCmd, const std::byte *data, size_t size);
 void NetClose();
 bool NetInit(bool bSinglePlayer);
-void recv_plrinfo(int pnum, const TCmdPlrInfoHdr &header, bool recv);
+void recv_plrinfo(Player &player, const TCmdPlrInfoHdr &header, bool recv);
 
 } // namespace devilution

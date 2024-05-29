@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <optional>
 
 #include <SmackerDecoder.h>
 
@@ -10,16 +11,15 @@
 #include "utils/push_aulib_decoder.h"
 #endif
 
-#include "dx.h"
 #include "engine/assets.hpp"
+#include "engine/dx.h"
+#include "engine/palette.h"
 #include "options.h"
-#include "palette.h"
 #include "utils/aulib.hpp"
 #include "utils/display.h"
 #include "utils/log.hpp"
 #include "utils/sdl_compat.h"
 #include "utils/sdl_wrap.h"
-#include "utils/stdcompat/optional.hpp"
 
 namespace devilution {
 namespace {
@@ -241,7 +241,7 @@ bool SVidPlayBegin(const char *filename, int flags)
 	// 0x800000 // Edge detection
 	// 0x200800 // Clear FB
 
-	SDL_RWops *videoStream = OpenAsset(filename);
+	SDL_RWops *videoStream = OpenAssetAsSdlRwOps(filename);
 	SVidHandle = Smacker_Open(videoStream);
 	if (!SVidHandle.isValid) {
 		return false;
@@ -260,7 +260,7 @@ bool SVidPlayBegin(const char *filename, int flags)
 		SVidAudioBuffer = std::unique_ptr<int16_t[]> { new int16_t[audioInfo.idealBufferSize] };
 		auto decoder = std::make_unique<PushAulibDecoder>(audioInfo.nChannels, audioInfo.sampleRate);
 		SVidAudioDecoder = decoder.get();
-		SVidAudioStream.emplace(/*rwops=*/nullptr, std::move(decoder), CreateAulibResampler(), /*closeRw=*/false);
+		SVidAudioStream.emplace(/*rwops=*/nullptr, std::move(decoder), CreateAulibResampler(audioInfo.sampleRate), /*closeRw=*/false);
 		const float volume = static_cast<float>(*sgOptions.Audio.soundVolume - VOLUME_MIN) / -VOLUME_MIN;
 		SVidAudioStream->setVolume(volume);
 		if (!diablo_is_focused())
@@ -285,7 +285,7 @@ bool SVidPlayBegin(const char *filename, int flags)
 	if (renderer != nullptr) {
 		int renderWidth = static_cast<int>(SVidWidth);
 		int renderHeight = static_cast<int>(SVidHeight);
-		texture = SDLWrap::CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING, renderWidth, renderHeight);
+		texture = SDLWrap::CreateTexture(renderer, DEVILUTIONX_DISPLAY_TEXTURE_FORMAT, SDL_TEXTUREACCESS_STREAMING, renderWidth, renderHeight);
 		if (SDL_RenderSetLogicalSize(renderer, renderWidth, renderHeight) <= -1) {
 			ErrSdl();
 		}

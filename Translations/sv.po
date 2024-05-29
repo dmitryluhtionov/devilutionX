@@ -367,7 +367,8 @@ msgid "Client-Server (TCP)"
 msgstr "Klient-Server (TCP)"
 
 #: Source/DiabloUI/selconn.cpp:15
-msgid "Loopback"
+#, fuzzy
+msgid "Offline" 
 msgstr "Loopback"
 
 #: Source/DiabloUI/selconn.cpp:54 Source/DiabloUI/selgame.cpp:604
@@ -828,11 +829,11 @@ msgstr "Föregående Meny"
 
 #: Source/DiabloUI/support_lines.cpp:8
 msgid ""
-"We maintain a chat server at Discord.gg/YQKCAYQ Follow the links to join our "
+"We maintain a chat server at Discord.gg/devilutionx Follow the links to join our "
 "community where we talk about things related to Diablo, and the Hellfire "
 "expansion."
 msgstr ""
-"Vi håller i en chattserver på Discord.gg/YQKCAYQ Följ länkarna för att gå "
+"Vi håller i en chattserver på Discord.gg/devilutionx Följ länkarna för att gå "
 "med i vår gemenskap där vi pratar som allt som har att göra med Diablo, och "
 "Hellfireexpansionen."
 
@@ -1045,10 +1046,10 @@ msgstr[0] "{:d} Laddning"
 msgstr[1] "{:d} Laddningar"
 
 #: Source/control.cpp:860 Source/inv.cpp:1998 Source/items.cpp:3480
-msgid "{:d} gold piece"
-msgid_plural "{:d} gold pieces"
-msgstr[0] "{:d} guldmynt"
-msgstr[1] "{:d} guldmynt"
+msgid "{:s} gold piece"
+msgid_plural "{:s} gold pieces"
+msgstr[0] "{:s} guldmynt"
+msgstr[1] "{:s} guldmynt"
 
 #: Source/control.cpp:863
 msgid "Requirements not met"
@@ -1068,10 +1069,10 @@ msgstr "Nivåökning"
 
 #. TRANSLATORS: {:d} is a number. Dialog is shown when splitting a stash of Gold.
 #: Source/control.cpp:1040
-msgid "You have {:d} gold piece. How many do you want to remove?"
-msgid_plural "You have {:d} gold pieces. How many do you want to remove?"
-msgstr[0] "Du har {:d} guldmynt. Hur många vill du dra ifrån?"
-msgstr[1] "Du har {:d} guldmynt. Hur många vill du dra ifrån?"
+msgid "You have {:s} gold piece. How many do you want to remove?"
+msgid_plural "You have {:s} gold pieces. How many do you want to remove?"
+msgstr[0] "Du har {:s} guldmynt. Hur många vill du dra ifrån?"
+msgstr[1] "Du har {:s} guldmynt. Hur många vill du dra ifrån?"
 
 #: Source/controls/modifier_hints.cpp:176 Source/qol/monhealthbar.cpp:36
 #: Source/qol/xpbar.cpp:76
@@ -1086,7 +1087,7 @@ msgstr ""
 
 #: Source/cursor.cpp:220
 msgid "Town Portal"
-msgstr "Stadsportal"
+msgstr "Byportal"
 
 #: Source/cursor.cpp:221
 msgid "from {:s}"
@@ -1466,7 +1467,7 @@ msgstr "{} svårighetsgrad"
 msgid "In Menu"
 msgstr "I Menyn"
 
-#: Source/dvlnet/loopback.cpp:113
+#: Source/dvlnet/loopback.cpp:118
 msgid "loopback"
 msgstr "loopback"
 
@@ -1480,7 +1481,7 @@ msgstr "fel: läste 0 bytes från servern"
 
 #: Source/error.cpp:55
 msgid "No automap available in town"
-msgstr "Ingen autokarta tillgänglig i staden"
+msgstr "Ingen autokarta tillgänglig i byn"
 
 #: Source/error.cpp:56
 msgid "No multiplayer functions in demo"
@@ -1500,7 +1501,7 @@ msgstr "Inte tillräckligt med utrymme för att spara"
 
 #: Source/error.cpp:60
 msgid "No Pause in town"
-msgstr "Ingen Paus i staden"
+msgstr "Ingen Paus i byn"
 
 #: Source/error.cpp:61
 msgid "Copying to a hard disk is recommended"
@@ -1744,7 +1745,7 @@ msgstr "Avsluta Spel"
 
 #: Source/gamemenu.cpp:51
 msgid "Restart In Town"
-msgstr "Starta Om i Staden"
+msgstr "Starta Om i Byn"
 
 #: Source/gamemenu.cpp:63
 msgid "Gamma"
@@ -2062,7 +2063,7 @@ msgstr "Köttyxa"
 
 #: Source/itemdat.cpp:60 Source/itemdat.cpp:434
 msgid "The Undead Crown"
-msgstr "De Vandödas Krona"
+msgstr "De Odödas Krona"
 
 #: Source/itemdat.cpp:61 Source/itemdat.cpp:435
 msgid "Empyrean Band"
@@ -2142,7 +2143,7 @@ msgstr "Identifiera-Skriftrulle"
 
 #: Source/itemdat.cpp:80 Source/itemdat.cpp:151
 msgid "Scroll of Town Portal"
-msgstr "Stadsportal-Skriftrulle"
+msgstr "Byportal-Skriftrulle"
 
 #: Source/itemdat.cpp:81 Source/itemdat.cpp:440
 msgid "Arkaine's Valor"
@@ -2482,7 +2483,7 @@ msgstr "Huggare"
 
 #: Source/itemdat.cpp:175
 msgid "Claymore"
-msgstr "Höglandssvärd"
+msgstr "Slagsvärd"
 
 #: Source/itemdat.cpp:176
 msgid "Blade"
@@ -2559,7 +2560,7 @@ msgstr "Spikklubba"
 
 #: Source/itemdat.cpp:194
 msgid "Flail"
-msgstr "Slaga"
+msgstr "Stridsgissel"
 
 #: Source/itemdat.cpp:195
 msgid "Maul"
@@ -3997,12 +3998,8 @@ msgid "Right-click to read"
 msgstr "Högerklicka för att läsa"
 
 #: Source/items.cpp:1814 Source/items.cpp:1835
-msgid "Select from spell book, then"
-msgstr "Välj från magibok, därefter"
-
-#: Source/items.cpp:1815 Source/items.cpp:1836
-msgid "cast spell to read"
-msgstr "använd trollformel för att läsa"
+msgid "Select from spell book, then\ncast spell to read"
+msgstr "Välj från magibok, därefter\nanvänd trollformel för att läsa"
 
 #: Source/items.cpp:1817 Source/items.cpp:1838 Source/items.cpp:1852
 msgid "Open inventory to use"
@@ -4013,12 +4010,8 @@ msgid "Activate to read"
 msgstr "Aktivera för att läsa"
 
 #: Source/items.cpp:1825
-msgid "Right-click to read, then"
-msgstr "Högerklicka för att läsa, därefter"
-
-#: Source/items.cpp:1826
-msgid "left-click to target"
-msgstr "vänsterklicka för att ange mål"
+msgid "Right-click to read, then\nleft-click to target"
+msgstr "Högerklicka för att läsa, därefter\nvänsterklicka för att ange mål"
 
 #: Source/items.cpp:1849
 msgid "Right-click to use"
@@ -4406,8 +4399,8 @@ msgstr "dubbel monsterskada, enkel till dig"
 
 #: Source/items.cpp:3746
 #, no-c-format
-msgid "Random 0 - 500% damage"
-msgstr "Slumpvis 0 - 500% skada"
+msgid "Random 0 - 600% damage"
+msgstr "Slumpvis 0 - 600% skada"
 
 #: Source/items.cpp:3748
 #, no-c-format
@@ -4420,7 +4413,7 @@ msgstr "extra PK mot demoner"
 
 #: Source/items.cpp:3754
 msgid "extra AC vs undead"
-msgstr "extra PK mot vandöda"
+msgstr "extra PK mot ödöda"
 
 #: Source/items.cpp:3756
 msgid "50% Mana moved to Health"
@@ -4795,7 +4788,7 @@ msgstr "Likdemon"
 #: Source/monstdat.cpp:91
 msgctxt "monster"
 msgid "Undead Balrog"
-msgstr "Vandöd Balrog"
+msgstr "Odöd Balrog"
 
 #: Source/monstdat.cpp:92
 msgctxt "monster"
@@ -5621,7 +5614,7 @@ msgstr "Demon"
 
 #: Source/monster.cpp:3386
 msgid "Undead"
-msgstr "Vandöd"
+msgstr "Odöd"
 
 #: Source/monster.cpp:4648
 msgid "Type: {:s}  Kills: {:d}"
@@ -6818,7 +6811,7 @@ msgid_plural "Staff ({:d} charges)"
 msgstr[0] "Stav ({:d} laddning)"
 msgstr[1] "Stav ({:d} laddningar)"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:164
 msgctxt "spellbook"
 msgid "Level {:d}"
@@ -6828,22 +6821,22 @@ msgstr "Nivå {:d}"
 msgid "Unusable"
 msgstr "Oanvändbar"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:174
 msgid "Heals: {:d} - {:d}"
 msgstr "Läker: {:d} - {:d}"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:176
 msgid "Damage: {:d} - {:d}"
 msgstr "Skada: {:d} - {:d}"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:180
 msgid "Dmg: 1/3 target hp"
 msgstr "Skada: 1/3 av målets liv"
 
-#. TRANSLATORS: UI constrains, keep short please.
+#. TRANSLATORS: UI constraints, keep short please.
 #: Source/panels/spell_book.cpp:182
 msgctxt "spellbook"
 msgid "Mana: {:d}"
@@ -6855,7 +6848,7 @@ msgstr "Magi"
 
 #: Source/panels/spell_list.cpp:172
 msgid "Damages undead only"
-msgstr "Skadar endast vandöda"
+msgstr "Skadar endast odöda"
 
 #: Source/panels/spell_list.cpp:183
 msgid "Scroll"
@@ -6898,8 +6891,8 @@ msgid "Chat History (Messages: {:d})"
 msgstr "Chatthistorik (Meddelanden: {:d})"
 
 #: Source/qol/itemlabels.cpp:72
-msgid "{:d} gold"
-msgstr "{:d} guld"
+msgid "{:s} gold"
+msgstr "{:s} guld"
 
 #: Source/qol/stash.cpp:586
 msgid "How many gold pieces do you want to withdraw?"
@@ -7087,7 +7080,7 @@ msgstr "Eldmur"
 #: Source/spelldat.cpp:22
 msgctxt "spell"
 msgid "Town Portal"
-msgstr "Stadsportal"
+msgstr "Byportal"
 
 #: Source/spelldat.cpp:23
 msgctxt "spell"
@@ -7412,8 +7405,8 @@ msgstr "Lämna butiken"
 msgid "I have these items for sale:"
 msgstr "Jag har dessa föremål till salu:"
 
-msgid "Your gold: {:d}"
-msgstr "Ditt guld: {:d}"
+msgid "Your gold: {:s}"
+msgstr "Ditt guld: {:s}"
 
 #. TRANSLATORS: This text is white space sensitive. Check for correct alignment!
 #: Source/stores.cpp:425
@@ -7690,7 +7683,7 @@ msgstr ""
 "\n"
 "Här tar historien en ännu mörkare vändning än vad jag trodde var möjligt! "
 "Vår forne kung har stigit upp från sin eviga sömn och styr nu en legion av "
-"vandöda tjänare inne i Labyrinten. Hans kropp begravdes i en grift tre "
+"odöda tjänare inne i Labyrinten. Hans kropp begravdes i en grift tre "
 "våningar under Katedralen. Snälla, kära mästare, släpp hans själ fri genom "
 "att förgöra hans förbannade nuvarande form..."
 
@@ -7775,7 +7768,7 @@ msgid ""
 "all who still live here."
 msgstr ""
 "De döda som går bland de levande följer den förbannade Kungen. Han har "
-"makten att väcka upp ännu fler krigare för de vandödas evigt växande armé. "
+"makten att väcka upp ännu fler krigare för de odödas evigt växande armé. "
 "Om du inte stoppar hans styre kommer han säkerligen tåga över detta land och "
 "slå ned alla som ännu bor här."
 
@@ -7789,7 +7782,7 @@ msgid ""
 msgstr ""
 "Lyssna, jag har affärer att sköta här. Jag säljer inte information, och jag "
 "bryr mig inte om någon Kung som varit död längre än jag levat. Men om du "
-"behöver något att använda mot den här vandöda Kungen, så kanske jag kan "
+"behöver något att använda mot den här odöda Kungen, så kanske jag kan "
 "hjälpa dig..."
 
 #. TRANSLATORS: Quest dialog spoken by The Skeleton King (Hostile)
@@ -8149,7 +8142,7 @@ msgid ""
 "Please, do what you can or I don't know what we will do."
 msgstr ""
 "Jag har alltid försökt hålla stora förråd av mat och dryck i vår källare, "
-"men om hela staden saknar färskvatten kommer till och med våra förråd sina "
+"men om hela byn saknar färskvatten kommer till och med våra förråd sina "
 "snart.\n"
 "\n"
 "Snälla, gör vad du kan, annars vet jag inte vad vi ska ta oss till."
@@ -10012,7 +10005,7 @@ msgid ""
 "little skeletons!"
 msgstr ""
 "Om du är ute efter ett bra vapen så se här. Ta ett vanligt trubbigt vapen, "
-"som en stridsklubba. Funkar utmärkt mot de där vandöda fasorna där nere, och "
+"som en stridsklubba. Funkar utmärkt mot de där odöda fasorna där nere, och "
 "det finns inget bättre för att spräcka smala små skelett!"
 
 #. TRANSLATORS: Neutral dialog spoken by Griswold (Gossip)
@@ -10037,7 +10030,7 @@ msgid ""
 msgstr ""
 "Titta på den här klingan, balansen. Ett svärd i rätt händer och mot rätt "
 "fiende, är alla vapens mästare. Dess skarpa egg har inte mycket att skära "
-"eller hugga igenom mot de vandöda, men mot levande fiender kan ett svärd på "
+"eller hugga igenom mot de odöda, men mot levande fiender kan ett svärd på "
 "riktigt skära deras kött!"
 
 #. TRANSLATORS: Neutral dialog spoken by Griswold (Gossip)
@@ -10952,7 +10945,7 @@ msgid ""
 "the talk of an old sick woman, but anything seems possible these days."
 msgstr ""
 "Min mormor berättar ofta historier om mystiska krafter som bebor kyrkogården "
-"utanför stade. Och du kanske vill höra en av dem. Hon sade att om man lämnar "
+"utanför byn. Och du kanske vill höra en av dem. Hon sade att om man lämnar "
 "en lämplig gåva i kyrkogården, går in i katedralen för att be för de döda, "
 "och sedan kommer tillbaka, så skulle gåvan ändrats på något konstigt sätt. "
 "Jag vet inte om det bara är en sjuk gammal kvinnas prat, men allt verkar "
@@ -11470,7 +11463,7 @@ msgstr "Krögaren Ogden"
 
 #: Source/towners.cpp:110
 msgid "Wounded Townsman"
-msgstr "Skadad Stadsbo"
+msgstr "Skadad Bybo"
 
 #: Source/towners.cpp:132
 msgid "Adria the Witch"
@@ -11506,7 +11499,7 @@ msgstr "Celia"
 
 #: Source/towners.cpp:277
 msgid "Slain Townsman"
-msgstr "Dräpt Stadsbo"
+msgstr "Dräpt Bybo"
 
 #: Source/trigs.cpp:343
 msgid "Down to dungeon"
@@ -11540,7 +11533,7 @@ msgstr "Upp till nivå {:d}"
 #: Source/trigs.cpp:416 Source/trigs.cpp:471 Source/trigs.cpp:523
 #: Source/trigs.cpp:602 Source/trigs.cpp:619 Source/trigs.cpp:666
 msgid "Up to town"
-msgstr "Upp till staden"
+msgstr "Upp till byn"
 
 #: Source/trigs.cpp:427 Source/trigs.cpp:505 Source/trigs.cpp:558
 #: Source/trigs.cpp:583 Source/trigs.cpp:648

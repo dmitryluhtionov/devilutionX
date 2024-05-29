@@ -2,8 +2,8 @@ include(functions/FetchContent_MakeAvailableExcludeFromAll)
 
 FetchContent_Declare(
   googletest
-  URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
-  URL_HASH MD5=0a912f72cbe9d4e2c976e49219433cb1
+  URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.tar.gz
+  URL_HASH MD5=c8340a482851ef6a3fe618a082304cfc
 )
 
 set(INSTALL_GTEST OFF)

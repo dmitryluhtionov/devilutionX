@@ -87,14 +87,15 @@ void CheckStashButtonRelease(Point mousePosition);
 void CheckStashButtonPress(Point mousePosition);
 
 void StartGoldWithdraw();
-void WithdrawGoldKeyPress(char vkey);
-void DrawGoldWithdraw(const Surface &out, int amount);
+void WithdrawGoldKeyPress(SDL_Keycode vkey);
+void DrawGoldWithdraw(const Surface &out);
 void CloseGoldWithdraw();
-void GoldWithdrawNewText(string_view text);
+bool HandleGoldWithdrawTextInputEvent(const SDL_Event &event);
 
 /**
  * @brief Checks whether the given item can be placed on the specified player's stash.
  * If 'persistItem' is 'True', the item is also placed in the inventory.
+ * @param player The player to check.
  * @param item The item to be checked.
  * @param persistItem Pass 'True' to actually place the item in the inventory. The default is 'False'.
  * @return 'True' in case the item can be placed on the player's inventory and 'False' otherwise.
